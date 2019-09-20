@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.domo.rest.osoba.Osoba;
 import com.domo.rest.repo.OsobaRepo;
@@ -20,24 +19,42 @@ import com.domo.rest.repo.OsobaRepo;
 @RestController
 public class OsobaController {
 	
-	
 	@Autowired	
 	OsobaRepo repo;
-
 	
-		@GetMapping("/osobe/{id}")
-		public Optional<Osoba> searchById(@PathVariable("id") int id) {
-			return repo.findById(id);
+	
+	
+	@DeleteMapping("/osobe/{id}")
+	public String deleteOsoba(@PathVariable int id) throws Exception {
+		Optional<Osoba> osoba = repo.findById(id);
+		if(osoba.isPresent()) {
+			repo.delete(osoba.get());
+			return "Osoba je izbrisana id: " + id;
+		}else {
+			throw new Exception("Osoba nije pronadena id: " + id);
 			
 		}
+		
+	}
 	
-		@GetMapping("/osobe")
-		public List<Osoba> getAll() {
-			List<Osoba> osobe = (List<Osoba>) repo.findAll();   // hocu da vuce iz db
-			return osobe;
+	
+	@GetMapping("/osobe/{id}")
+	public Optional<Osoba> searchById(@PathVariable("id") int id) {
+		return repo.findById(id);
+			
+	}
+	
+	
+	@GetMapping("/osobe")
+	public List<Osoba> getAll() {
+		List<Osoba> osobe = (List<Osoba>) repo.findAll();   // hocu da vuce iz db
+		return osobe;
 		
 		
 
+		
+		
+		
 
 			
 /*		List<Osoba> osobe = new ArrayList<>();                  // ili cr8 localne osobe
