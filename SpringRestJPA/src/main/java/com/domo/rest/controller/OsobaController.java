@@ -24,6 +24,18 @@ public class OsobaController {
 	
 	
 	
+	@PostMapping("/osobe")
+	public Osoba createOsoba(@RequestBody Osoba osobaobj) {
+		return repo.save(osobaobj);		
+	}
+	
+	
+	@PutMapping("/osobe")
+	public Osoba updateOsoba(@RequestBody Osoba osobaobj) {
+		return repo.save(osobaobj);		
+	}
+	
+	
 	@DeleteMapping("/osobe/{id}")
 	public String deleteOsoba(@PathVariable int id) throws Exception {
 		Optional<Osoba> osoba = repo.findById(id);
